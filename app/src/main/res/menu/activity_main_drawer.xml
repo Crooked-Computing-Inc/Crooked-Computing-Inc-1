@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_vid"
+            android:icon="@drawable/vid"
+            android:title="Videos" />
+        <item
+            android:id="@+id/nav_guestcon"
+            android:icon="@drawable/guest"
+            android:title="Guest Contributions" />
+        <item
+            android:id="@+id/nav_copyright"
+            android:icon="@drawable/copyright"
+            android:title="Copyright Softwares | Crooked Computing Inc" />
+        <item
+            android:id="@+id/nav_mobile"
+            android:icon="@drawable/mobile"
+            android:title="Mobile" />
+
+        <item
+            android:id="@+id/nav_multim"
+            android:icon="@drawable/multim"
+            android:title="Multimedia" />
+        <item
+            android:id="@+id/nav_system"
+            android:icon="@drawable/system"
+            android:title="System" />
+        <item
+            android:id="@+id/nav_util"
+            android:icon="@drawable/util"
+            android:title="Utilities" />
+        <item
+            android:id="@+id/nav_games"
+            android:icon="@drawable/game"
+            android:title="Games" />
+
+        <item
+            android:id="@+id/nav_dev"
+            android:icon="@drawable/dev"
+            android:title="Developers" />
+        <item
+            android:id="@+id/nav_gamerev"
+            android:icon="@drawable/gamrev"
+            android:title="Gaming" />
+        <item
+            android:id="@+id/nav_write"
+            android:icon="@drawable/writeup"
+            android:title="Write Ups" />
+        <item
+            android:id="@+id/nav_hw"
+            android:icon="@drawable/hw"
+            android:title="Hardware" />
+
+    </group>
+
+
+</menu>
