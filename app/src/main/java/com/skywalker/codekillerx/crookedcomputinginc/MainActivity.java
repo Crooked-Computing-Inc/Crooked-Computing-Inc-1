@@ -2,6 +2,7 @@ package com.skywalker.codekillerx.crookedcomputinginc;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -142,40 +143,14 @@ public class MainActivity extends AppCompatActivity
         webView = (WebView) findViewById(R.id.webView);
         webView.setClickable(true);
         webView.setFocusableInTouchMode(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        if(isNetworkAvailable()) {
+        webView.getSettings().setJavaScriptEnabled(false);
+        if(Utils.isNetworkAvailable(this)) {
             webView.loadUrl(URL);
-            WebClientClass webViewClient = new WebClientClass();
+            WebClientClass webViewClient = new WebClientClass(MainActivity.this);
             webView.setWebViewClient(webViewClient);
         }
         else{
             Toast.makeText(this,"Network Service Unavailable",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public class WebClientClass extends WebViewClient {
-        ProgressDialog pd = null;
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            pd = new ProgressDialog(MainActivity.this);
-            pd.setTitle("Please Wait");
-            pd.setMessage("Page is loading..");
-            pd.show();
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            pd.dismiss();
         }
     }
 
@@ -205,9 +180,9 @@ public class MainActivity extends AppCompatActivity
             URL = "http://crookedcomputing.weebly.com/work-with-us.html";
         }
 
-        if(isNetworkAvailable()) {
+        if(Utils.isNetworkAvailable(MainActivity.this)) {
             webView.loadUrl(URL);
-            WebClientClass webViewClient = new WebClientClass();
+            WebClientClass webViewClient = new WebClientClass(MainActivity.this);
             webView.setWebViewClient(webViewClient);
         }
         else{
@@ -220,9 +195,8 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Intent intent;
         if (id == R.id.nav_vid) {
             URL = "http://crookedcomputing.weebly.com/videos.html";
         } else if (id == R.id.nav_guestcon) {
@@ -230,7 +204,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_copyright) {
             URL =  "http://crookedcomputing.weebly.com/copyright-softwares--crooked-computing-inc.html";
         } else if (id == R.id.nav_mobile) {
-            URL = "http://crookedcomputing.weebly.com/mobile.html";
+            //URL = "http://crookedcomputing.weebly.com/mobile.html";
+            intent = new Intent(MainActivity.this,Mobile.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_multim) {
             URL = "http://crookedcomputing.weebly.com/multimedia.html";
@@ -253,10 +229,10 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-        if(isNetworkAvailable()) {
+        back_counter = 0;
+        if(Utils.isNetworkAvailable(MainActivity.this)) {
             webView.loadUrl(URL);
-            WebClientClass webViewClient = new WebClientClass();
+            WebClientClass webViewClient = new WebClientClass(MainActivity.this);
             webView.setWebViewClient(webViewClient);
         }
         else{
