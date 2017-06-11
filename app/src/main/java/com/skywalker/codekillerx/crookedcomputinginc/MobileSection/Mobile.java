@@ -1,11 +1,10 @@
-package com.skywalker.codekillerx.crookedcomputinginc;
+package com.skywalker.codekillerx.crookedcomputinginc.MobileSection;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,18 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.skywalker.codekillerx.crookedcomputinginc.MainActivity;
+import com.skywalker.codekillerx.crookedcomputinginc.R;
+import com.skywalker.codekillerx.crookedcomputinginc.Utils;
+import com.skywalker.codekillerx.crookedcomputinginc.WebClientClass;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 public class Mobile extends AppCompatActivity {
 
@@ -45,8 +43,8 @@ public class Mobile extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(Mobile.this,AndroidPage.class);
+                startActivity(intent);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,14 +53,8 @@ public class Mobile extends AppCompatActivity {
         description.setClickable(true);
         description.setFocusableInTouchMode(true);
         description.getSettings().setJavaScriptEnabled(false);
-        /*if(Utils.isNetworkAvailable(this)) {
-            description.loadUrl(url);
-            WebClientClass webViewClient = new WebClientClass(Mobile.this);
-            description.setWebViewClient(webViewClient);
-        }*/
         Log.i(TAG,"Starting Async activity");
         new ContentGrab().execute();
-        //Toast.makeText(Mobile.this,TAG,Toast.LENGTH_LONG).show();
 
     }
 
@@ -72,7 +64,7 @@ public class Mobile extends AppCompatActivity {
         protected void onPreExecute() {
             mProgressDialog = new ProgressDialog(Mobile.this);
             mProgressDialog.setTitle("Mobile");
-            mProgressDialog.setMessage("Loading Please Wait...");
+            mProgressDialog.setMessage("Fetching...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.show();
         }
@@ -87,15 +79,12 @@ public class Mobile extends AppCompatActivity {
                     Elements para = document.select("div.paragraph");
                     Elements titlebar = document.select("h2.wsite-content-title");
                     Elements style = document.select("style");
-                    Elements link = document.select("link[title=wsite-theme-css]");
-                    link.attr("href","http://crookedcomputing.weebly.com/files/main_style.css?1496980529");
-                    Log.i(TAG,""+link);
                     if(para!=null){
                         Log.i(TAG,"Got para");
-                        //Log.i(TAG,"" + links);
-                        Document d = Jsoup.parse(""+ link + style + titlebar + "<br />" + "<br />" + para);
+                        String stylesheet = "<link rel=\"stylesheet\" type=\"text/css\" href=\"ccimain.css\" />";
+                        Document d = Jsoup.parse("" + stylesheet + style + titlebar + "<br />" + "<br />" + para);
                         desc = d.toString();
-                        //Log.i(TAG,desc);
+                        Log.i(TAG,desc);
                     }
                     else
                         Log.i(TAG,"Para null");
@@ -109,8 +98,13 @@ public class Mobile extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            description.loadDataWithBaseURL("",desc,"text/html","UTF-8","");
             mProgressDialog.dismiss();
+            if(Utils.isNetworkAvailable(Mobile.this)) {
+                description.loadDataWithBaseURL("file:///android_asset/",desc,"text/html","UTF-8","");
+                WebClientClass webViewClient = new WebClientClass(Mobile.this);
+                description.setWebViewClient(webViewClient);
+            }
+
         }
     }
 

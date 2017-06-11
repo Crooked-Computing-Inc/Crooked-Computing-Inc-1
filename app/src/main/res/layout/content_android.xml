@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.skywalker.codekillerx.crookedcomputinginc.MobileSection.Mobile"
-    tools:showIn="@layout/activity_moblile">
-
+    tools:context="com.skywalker.codekillerx.crookedcomputinginc.MobileSection.AndroidPage"
+    tools:showIn="@layout/activity_android">
 
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mobileView" />
+        android:id="@+id/androidView" />
 
 </android.support.v4.widget.NestedScrollView>
